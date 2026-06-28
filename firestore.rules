@@ -1,0 +1,106 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net (Default Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+        request.auth.token.email == "abishekabishek55337@gmail.com" && 
+        (!('email_verified' in request.auth.token) || request.auth.token.email_verified == true);
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Entity Validation Helpers
+    function isValidLead(data) {
+      return data.keys().hasAll(['name', 'phone', 'email', 'createdAt']) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+        data.phone is string && data.phone.size() >= 8 && data.phone.size() <= 25 &&
+        data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
+        data.createdAt == request.time &&
+        (!('whatsapp' in data) || (data.whatsapp is string && data.whatsapp.size() <= 25)) &&
+        (!('city' in data) || (data.city is string && data.city.size() <= 200)) &&
+        (!('occupation' in data) || (data.occupation is string && data.occupation.size() <= 200)) &&
+        (!('goal' in data) || (data.goal is string && data.goal.size() <= 1000)) &&
+        (!('utmSource' in data) || (data.utmSource is string && data.utmSource.size() <= 200)) &&
+        (!('utmMedium' in data) || (data.utmMedium is string && data.utmMedium.size() <= 200)) &&
+        (!('device' in data) || (data.device is string && data.device.size() <= 100)) &&
+        (!('sourceUrl' in data) || (data.sourceUrl is string && data.sourceUrl.size() <= 2000)) &&
+        (!('paymentStatus' in data) || (data.paymentStatus is string && data.paymentStatus.size() <= 50));
+    }
+
+    function isValidEnrollment(data) {
+      return data.keys().hasAll(['name', 'phone', 'email', 'amountPaid', 'paymentStatus', 'createdAt']) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+        data.phone is string && data.phone.size() >= 8 && data.phone.size() <= 25 &&
+        data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
+        data.amountPaid is number && data.amountPaid >= 0 &&
+        data.paymentStatus is string && data.paymentStatus.size() <= 50 &&
+        data.createdAt == request.time &&
+        (!('courseId' in data) || (data.courseId is string && data.courseId.size() <= 100)) &&
+        (!('paymentMethod' in data) || (data.paymentMethod is string && data.paymentMethod.size() <= 100));
+    }
+
+    function isValidTestimonial(data) {
+      return data.keys().hasAll(['name', 'content', 'rating', 'createdAt']) &&
+        data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+        data.content is string && data.content.size() > 0 && data.content.size() <= 5000 &&
+        data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+        data.createdAt == request.time &&
+        (!('role' in data) || (data.role is string && data.role.size() <= 200)) &&
+        (!('avatarUrl' in data) || (data.avatarUrl is string && data.avatarUrl.size() <= 2000));
+    }
+
+    function isValidBlog(data) {
+      return data.keys().hasAll(['title', 'slug', 'content', 'createdAt']) &&
+        data.title is string && data.title.size() > 0 && data.title.size() <= 500 &&
+        data.slug is string && data.slug.size() > 0 && data.slug.size() <= 500 &&
+        data.content is string && data.content.size() > 0 && data.content.size() <= 100000 &&
+        data.createdAt == request.time &&
+        (!('author' in data) || (data.author is string && data.author.size() <= 200)) &&
+        (!('tags' in data) || (data.tags is list && data.tags.size() <= 20));
+    }
+
+    // Rules for Collections
+    match /leads/{leadId} {
+      allow create: if isValidId(leadId) && isValidLead(incoming());
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    match /enrollments/{enrollmentId} {
+      allow create: if isValidId(enrollmentId) && isValidEnrollment(incoming());
+      allow get, list, update, delete: if isAdmin();
+    }
+
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(testimonialId) && isValidTestimonial(incoming());
+      allow delete: if isAdmin();
+    }
+
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(blogId) && isValidBlog(incoming());
+      allow delete: if isAdmin();
+    }
+  }
+}

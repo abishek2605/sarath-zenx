@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "Lead": {
+      "title": "Lead",
+      "description": "Information collected from interest/demo booking forms",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "whatsapp": { "type": "string" },
+        "email": { "type": "string" },
+        "city": { "type": "string" },
+        "occupation": { "type": "string" },
+        "goal": { "type": "string" },
+        "utmSource": { "type": "string" },
+        "utmMedium": { "type": "string" },
+        "device": { "type": "string" },
+        "sourceUrl": { "type": "string" },
+        "paymentStatus": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "email", "createdAt"]
+    },
+    "Enrollment": {
+      "title": "Enrollment",
+      "description": "Course enrollments and payment details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "courseId": { "type": "string" },
+        "amountPaid": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "paymentStatus": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "email", "amountPaid", "paymentStatus", "createdAt"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Student reviews and feedback",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "content": { "type": "string" },
+        "rating": { "type": "number" },
+        "avatarUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "content", "rating", "createdAt"]
+    },
+    "Blog": {
+      "title": "Blog",
+      "description": "SEO articles and news posts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "tags": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "content", "createdAt"]
+    }
+  },
+  "firestore": {
+    "leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Collection of course leads"
+    },
+    "enrollments/{enrollmentId}": {
+      "schema": "Enrollment",
+      "description": "Collection of actual paid students"
+    },
+    "testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Collection of custom testimonials"
+    },
+    "blogs/{blogId}": {
+      "schema": "Blog",
+      "description": "Collection of SEO blog posts"
+    }
+  }
+}
