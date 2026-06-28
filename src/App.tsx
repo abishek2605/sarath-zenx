@@ -127,20 +127,14 @@ function AppContent() {
       />
 
       {/* 2. Hero Section (Dynamic headlines based on current SEO Route) */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUpVariant}
-      >
-        <Hero 
-          headline={pageData.headline} 
-          subheadline={pageData.subheadline} 
-          focusArea={pageData.focusArea} 
-          onScrollToEnroll={handleScrollToEnroll}
-          onOpenDemo={() => setActiveModal('demo')}
-          onOpenSyllabus={() => setActiveModal('syllabus')}
-        />
-      </motion.div>
+      <Hero 
+        headline={pageData.headline} 
+        subheadline={pageData.subheadline} 
+        focusArea={pageData.focusArea} 
+        onScrollToEnroll={handleScrollToEnroll}
+        onOpenDemo={() => setActiveModal('demo')}
+        onOpenSyllabus={() => setActiveModal('syllabus')}
+      />
 
       {/* 3. Trust Section (Highlights & Unique Selling Propositions) */}
       <motion.div
@@ -274,39 +268,91 @@ function AppContent() {
       </motion.div>
 
       {/* 11. SEO Multi-path Linkages Footer (Ensures crawlers indexing of all paths) */}
-      <footer className="bg-slate-950 text-white border-t border-slate-900 pt-16 pb-28 md:pb-16" id="footer">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <footer className="bg-slate-950 text-slate-200 border-t border-slate-900 pt-16 pb-28 md:pb-16 relative overflow-hidden" id="footer">
+        {/* Ambient background glow effects */}
+        <div className="absolute top-0 left-1/4 h-80 w-80 rounded-full bg-purple-500/5 blur-3xl" />
+        <div className="absolute bottom-0 right-10 h-80 w-80 rounded-full bg-indigo-500/5 blur-3xl" />
+
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-12">
+          {/* Flexible CSS Grid with 4 logical columns that wraps beautifully on tablet (md:grid-cols-2) and stacks on mobile (grid-cols-1) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12 mb-12">
             
             {/* Column 1 - Brand Info */}
-            <div className="sm:col-span-2 md:col-span-1 lg:col-span-2 space-y-4">
+            <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <Logo variant="full" theme="dark" height={44} />
               </div>
-              <p className="text-xs text-slate-400 max-w-sm leading-relaxed">
+              <p className="text-xs text-slate-400 leading-relaxed">
                 ZenX Academy is Chennai's premium online training institute empowering students, graduates, and business owners with next-generation AI SEO, n8n automations, GEO, and ads in simple Tamil.
               </p>
+              <div className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-purple-500 animate-pulse" />
+                <span className="text-[9px] uppercase font-bold tracking-wider text-slate-500">Premium AI & SEO Learning Hub</span>
+              </div>
             </div>
 
-            {/* Column 2 - Quick Links */}
-            <div className="sm:col-span-1">
-              <h4 className="text-xs font-extrabold text-slate-300 uppercase tracking-widest mb-4">Quick Navigation</h4>
-              <ul className="space-y-2 text-xs text-slate-400 font-semibold">
+            {/* Column 2 - Specialized Paths */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-slate-300 uppercase tracking-widest border-l-2 border-purple-500 pl-3">Specialized Paths</h4>
+              <ul className="space-y-2.5 text-xs text-slate-400 font-semibold">
+                <li>
+                  <button onClick={() => handleNavigate('/online-ai-digital-marketing-course-in-tamil')} className="hover:text-purple-400 transition-colors text-left">
+                    Tamil AI Digital Marketing
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleNavigate('/ai-seo-course')} className="hover:text-purple-400 transition-colors text-left">
+                    Advanced AI & Semantic SEO
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleNavigate('/n8n-course')} className="hover:text-purple-400 transition-colors text-left">
+                    n8n AI Agents & Automation
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleNavigate('/geo-course')} className="hover:text-purple-400 transition-colors text-left">
+                    GEO & Search Rankings
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3 - Quick Links */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-slate-300 uppercase tracking-widest border-l-2 border-purple-500 pl-3">Quick Navigation</h4>
+              <ul className="space-y-2.5 text-xs text-slate-400 font-semibold">
                 <li><a href="#trust" className="hover:text-purple-400 transition-colors">Why ZenX</a></li>
                 <li><a href="#curriculum" className="hover:text-purple-400 transition-colors">Syllabus Curriculum</a></li>
                 <li><a href="#outcomes" className="hover:text-purple-400 transition-colors">Student Placements</a></li>
                 <li><a href="#pricing" className="hover:text-purple-400 transition-colors">Tuition Fees</a></li>
-                <li><button onClick={() => handleNavigate('/admin')} className="hover:text-purple-400 transition-colors text-left font-bold flex items-center gap-1">Admin Panel <ArrowUpRight className="w-3.5 h-3.5 text-slate-500" /></button></li>
+                <li>
+                  <button onClick={() => handleNavigate('/admin')} className="hover:text-purple-400 transition-colors text-left font-bold flex items-center gap-1">
+                    Admin Panel <ArrowUpRight className="w-3.5 h-3.5 text-slate-500" />
+                  </button>
+                </li>
               </ul>
             </div>
 
-            {/* Column 3 - Contact details */}
-            <div className="sm:col-span-1 space-y-3 text-xs text-slate-400">
-              <h4 className="text-xs font-extrabold text-slate-300 uppercase tracking-widest mb-4">Inquiries & Support</h4>
-              <p className="leading-relaxed">Admissions Office: Chennai, Tamil Nadu, India</p>
-              <p>Support Call: <b className="text-white">+91 9962999312</b></p>
-              <p>Email: <code className="bg-slate-900 border border-slate-800 px-1.5 py-0.5 rounded text-purple-400 font-mono text-[11px]">support@zenxacademy.com</code></p>
+            {/* Column 4 - Contact Details */}
+            <div className="space-y-4">
+              <h4 className="text-xs font-black text-slate-300 uppercase tracking-widest border-l-2 border-purple-500 pl-3">Inquiries & Support</h4>
+              <div className="space-y-3.5 text-xs text-slate-400">
+                <p className="leading-relaxed">Admissions Office: Chennai, Tamil Nadu, India</p>
+                <p className="flex flex-col gap-0.5">
+                  <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Helpline</span>
+                  <a href="tel:9962999312" className="text-white hover:text-purple-400 transition-colors font-black text-sm">
+                    +91 9962999312
+                  </a>
+                </p>
+                <p className="flex flex-col gap-0.5">
+                  <span className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Admissions Email</span>
+                  <code className="bg-slate-900 border border-slate-800 px-2 py-1 rounded text-purple-400 font-mono text-[11px] select-all w-fit">
+                    support@zenxacademy.com
+                  </code>
+                </p>
+              </div>
             </div>
           </div>
 

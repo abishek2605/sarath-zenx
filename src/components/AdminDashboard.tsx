@@ -13,7 +13,7 @@ import {
   Users, Mail, Phone, MapPin, Briefcase, Award, Plus, Trash2, 
   CheckCircle, Database, FileText, LayoutDashboard, LogOut, Lock, 
   Chrome, Download, Search, RefreshCw, Send, Check, ShieldAlert, ShieldCheck,
-  Eye, Save, Smartphone, Laptop, CheckSquare, Sparkles, Sliders
+  Eye, Save, Smartphone, Laptop, CheckSquare, Sparkles, Sliders, Linkedin
 } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
@@ -371,7 +371,7 @@ export const AdminDashboard: React.FC = () => {
               SEO Blogs ({blogs.length})
             </button>
             <button
-              onClick={() => { setActiveTab('certificates'); setShowCertificate(false); }}
+              onClick={() => { setActiveTab('certificates'); setShowCertificate(true); }}
               className={`rounded-xl px-4 py-2.5 text-xs font-extrabold flex items-center gap-1.5 transition-all ${
                 activeTab === 'certificates' ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100'
               }`}
@@ -708,12 +708,15 @@ export const AdminDashboard: React.FC = () => {
                         </p>
                       </div>
                     </div>
-                    <button
-                      onClick={() => handleDeleteDoc('testimonials', test.id!)}
-                      className="text-rose-500 hover:text-rose-700 p-1 h-fit shrink-0"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex flex-col items-end justify-between h-full shrink-0">
+                      <button
+                        onClick={() => handleDeleteDoc('testimonials', test.id!)}
+                        className="text-rose-500 hover:text-rose-700 p-1 rounded hover:bg-rose-50 transition-colors"
+                        title="Delete Testimonial"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 ))}
                 {testimonials.length === 0 && (
@@ -891,6 +894,38 @@ export const AdminDashboard: React.FC = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Quick Import from Active Enrollments */}
+              {enrollments.length > 0 && (
+                <div className="mb-6 bg-slate-900/5 border border-slate-200 rounded-2xl p-4.5 text-xs">
+                  <label className="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">
+                    Quick Import: Auto-fill From Active Student Database
+                  </label>
+                  <div className="flex gap-2.5 items-center">
+                    <select
+                      onChange={(e) => {
+                        const selectedVal = e.target.value;
+                        if (selectedVal) {
+                          setCertStudentName(selectedVal);
+                          setCertId(`ZX-CERT-2026-${Math.floor(1000 + Math.random() * 9000)}`);
+                          setShowCertificate(true);
+                        }
+                      }}
+                      className="rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 font-bold text-slate-800 flex-1 cursor-pointer shadow-sm hover:border-slate-350"
+                    >
+                      <option value="">-- Choose an Enrolled Student to Auto-fill --</option>
+                      {enrollments.map((en) => (
+                        <option key={en.id} value={en.name}>
+                          {en.name} (Amount Paid: ₹{en.amountPaid.toLocaleString()})
+                        </option>
+                      ))}
+                    </select>
+                    <div className="text-[10px] font-extrabold text-purple-700 bg-purple-100 rounded-xl px-3 py-2 border border-purple-200 shrink-0">
+                      {enrollments.length} Active Records
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Configurable Input Fields */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs mb-6">

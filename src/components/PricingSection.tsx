@@ -80,19 +80,48 @@ export const PricingSection: React.FC<PricingSectionProps> = ({ onScrollToEnroll
           <div className="absolute top-0 right-0 h-44 w-44 rounded-full bg-purple-500/10 blur-3xl" />
           <div className="absolute -bottom-10 -left-10 h-44 w-44 rounded-full bg-indigo-500/20 blur-3xl" />
 
-          {/* Top Ribbons */}
-          <div className="flex justify-between items-center border-b border-slate-800 pb-6 relative z-10">
-            <div>
-              <span className="bg-purple-500/20 text-purple-300 font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-purple-500/20">
-                PROMO BATCH OFFER
-              </span>
-              <h3 className="text-xl font-black mt-3 leading-none font-display">Full Program Access</h3>
+          {/* Top Ribbons & Price Comparison */}
+          <div className="border-b border-slate-800 pb-6 relative z-10">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div>
+                <span className="bg-purple-500/20 text-purple-300 font-extrabold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full border border-purple-500/20">
+                  PROMO BATCH OFFER
+                </span>
+                <h3 className="text-2xl font-black mt-3 font-display">Full Program Access</h3>
+              </div>
+              <div className="inline-flex self-start sm:self-center items-center gap-1 bg-red-500/10 border border-red-500/20 rounded-full px-3 py-1 text-[10px] font-extrabold uppercase text-red-400 tracking-wider">
+                <Sparkles className="w-3 h-3 animate-pulse text-red-400" />
+                Save ₹1,40,001 Today
+              </div>
             </div>
-            
-            <div className="text-right">
-              <div className="text-slate-500 text-xs font-bold line-through">₹39,000</div>
-              <div className="text-3xl sm:text-4xl font-black text-purple-400 leading-none mt-1.5 font-display">₹9,999</div>
-              <span className="text-[10px] text-slate-400 font-bold tracking-wider uppercase">GST Included</span>
+
+            {/* Price Comparison Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-950/60 rounded-2xl border border-slate-800 p-4.5 text-left">
+              {/* 1. Market Price */}
+              <div className="space-y-1">
+                <div className="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">Typical Market Price</div>
+                <div className="text-lg font-black text-slate-500 line-through decoration-red-500/70 decoration-2">₹1,50,000</div>
+                <div className="text-[9px] text-red-400 font-bold">Standard MBA/Agency Cost</div>
+              </div>
+
+              {/* 2. ZenX Standard */}
+              <div className="space-y-1 sm:border-x sm:border-slate-800/80 sm:px-4">
+                <div className="text-[9px] text-slate-400 font-extrabold uppercase tracking-wider">ZenX Regular Price</div>
+                <div className="text-lg font-black text-slate-400 line-through decoration-slate-600">₹39,000</div>
+                <div className="text-[9px] text-slate-400 font-bold">Normal Registration Fee</div>
+              </div>
+
+              {/* 3. Promo Offer */}
+              <div className="space-y-1 sm:pl-2">
+                <div className="text-[9px] text-purple-300 font-extrabold uppercase tracking-wider flex items-center gap-1 justify-start sm:justify-end">
+                  <Flame className="w-3 h-3 text-purple-400 animate-pulse" />
+                  Promo Deal
+                </div>
+                <div className="text-2xl sm:text-3xl font-black text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-amber-300 bg-clip-text leading-none font-display sm:text-right">
+                  ₹9,999
+                </div>
+                <div className="text-[9px] text-purple-300 font-bold sm:text-right uppercase tracking-wider">GST Included</div>
+              </div>
             </div>
           </div>
 

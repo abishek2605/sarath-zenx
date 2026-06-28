@@ -49,11 +49,32 @@ export const Logo: React.FC<LogoProps> = ({
           <filter id="logoShadow" x="-10%" y="-10%" width="120%" height="120%">
             <feDropShadow dx="0" dy="2" stdDeviation="2" floodOpacity="0.25" />
           </filter>
+
+          {/* Transparent SVG Mask to carve out exact spacing around the arrow */}
+          <mask id="zxLettersMask">
+            {/* Opaque white background: keeps everything visible */}
+            <rect x="0" y="0" width="100" height="100" fill="white" />
+            {/* Black path to carve out a perfectly transparent gap around the diagonal arrow */}
+            <path
+              d="M 10 71 L 32 49 L 44 61 L 79 17"
+              stroke="black"
+              strokeWidth="12"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            {/* Black arrowhead gap mask */}
+            <path
+              d="M 70 18 L 82 14 L 86 26 Z"
+              fill="black"
+              stroke="black"
+              strokeWidth="6.5"
+              strokeLinejoin="round"
+            />
+          </mask>
         </defs>
 
-        {/* Stylized background ZX Monogram */}
-        {/* Left 'Z' Block and Right 'X' Block integrated together, leaving gap for arrow */}
-        <g id="zx-letters">
+        {/* Stylized background ZX Monogram masked dynamically for transparent spacing */}
+        <g id="zx-letters" mask="url(#zxLettersMask)">
           {/* Z Top bar & upper diagonal */}
           <path
             d="M 12 30 L 52 30 C 52 30 52 36 49 41 L 32 63 L 14 63 L 14 55 L 26 39 L 12 39 Z"
@@ -70,23 +91,6 @@ export const Logo: React.FC<LogoProps> = ({
             fill={zxBlockColor}
           />
         </g>
-
-        {/* Outline / gap mask for the arrow (drawn slightly larger than the arrow in background color) */}
-        <path
-          d="M 10 71 L 32 49 L 44 61 L 79 17"
-          stroke={isDark ? '#020617' : '#ffffff'} // matching background color
-          strokeWidth="11"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {/* White arrowhead gap mask */}
-        <path
-          d="M 70 18 L 82 14 L 86 26 Z"
-          fill={isDark ? '#020617' : '#ffffff'}
-          stroke={isDark ? '#020617' : '#ffffff'}
-          strokeWidth="6"
-          strokeLinejoin="round"
-        />
 
         {/* Growth Arrow (Purple -> Teal -> Emerald Gradient) */}
         {/* Animated slide in of the arrow on mount */}

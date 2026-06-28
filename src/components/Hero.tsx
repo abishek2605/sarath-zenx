@@ -24,53 +24,195 @@ export const Hero: React.FC<HeroProps> = ({
   onOpenDemo,
   onOpenSyllabus,
 }) => {
+  // Master parent stagger orchestrator
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.1,
+        staggerChildren: 0.15,
+        delayChildren: 0.12,
       }
     }
   };
 
-  const itemVariants = {
+  // 1. Tag animation: subtle drop with bounce
+  const tagVariants = {
+    hidden: { opacity: 0, y: -20, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 14,
+      }
+    }
+  };
+
+  // 2. Headline: robust and responsive spring reveal
+  const headlineVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 75,
+        damping: 16,
+        mass: 1.1,
+      }
+    }
+  };
+
+  // 3. Subheadline: smooth sliding fade-in
+  const subheadlineVariants = {
     hidden: { opacity: 0, y: 25 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 100, damping: 15 }
+      transition: {
+        type: "spring",
+        stiffness: 85,
+        damping: 18,
+      }
+    }
+  };
+
+  // 4. Interactive Offer Box: scale up and fade
+  const offerVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.98 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 75,
+        damping: 18,
+      }
+    }
+  };
+
+  // 5. Button Container & Buttons stagger
+  const buttonContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+      }
+    }
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15,
+      }
+    }
+  };
+
+  // 6. Indicators Container & Items stagger
+  const indicatorsContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.06,
+      }
+    }
+  };
+
+  const indicatorItemVariants = {
+    hidden: { opacity: 0, scale: 0.9, y: 15 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 120,
+        damping: 14,
+      }
+    }
+  };
+
+  // 7. Spotlight Card: elegant late entry
+  const spotlightVariants = {
+    hidden: { opacity: 0, y: 45, scale: 0.97 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 60,
+        damping: 16,
+        mass: 1.2,
+      }
     }
   };
 
   return (
-    <section className="relative overflow-hidden bg-radial from-slate-50 via-white to-purple-50/15 py-24 lg:py-32" id="hero">
-      {/* Decorative background grid and shapes */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(109,40,217,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(109,40,217,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-80" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 h-[45rem] w-[45rem] rounded-full bg-purple-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/4 -z-10 h-96 w-96 rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-purple-50/20 py-24 lg:py-36" id="hero">
+      {/* Dynamic drifting background visual accents */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(109,40,217,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(109,40,217,0.02)_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-80 pointer-events-none" />
+      
+      {/* Drifting background circles to create depth */}
+      <motion.div 
+        animate={{ 
+          x: [0, 20, -15, 0],
+          y: [0, -25, 25, 0]
+        }}
+        transition={{
+          duration: 16,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-0 left-1/2 -translate-x-1/2 -z-10 h-[50rem] w-[50rem] rounded-full bg-purple-500/5 blur-3xl pointer-events-none" 
+      />
+      
+      <motion.div 
+        animate={{ 
+          x: [0, -25, 20, 0],
+          y: [0, 20, -20, 0]
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute bottom-1/4 left-1/4 -z-10 h-[30rem] w-[30rem] rounded-full bg-indigo-500/5 blur-3xl pointer-events-none" 
+      />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="flex flex-col items-center text-center max-w-5xl mx-auto gap-8"
+          className="flex flex-col items-center text-center max-w-5xl mx-auto gap-10"
         >
-          {/* Dynamic Segment Tag */}
+          {/* 1. Dynamic Segment Tag */}
           <motion.div 
-            variants={itemVariants}
-            className="inline-flex items-center gap-2 rounded-full bg-purple-100/80 border border-purple-200 px-4.5 py-2 text-xs font-black text-purple-800 backdrop-blur-sm shadow-sm"
+            variants={tagVariants}
+            whileHover={{ scale: 1.03 }}
+            className="inline-flex items-center gap-2 rounded-full bg-purple-100/90 border border-purple-200/60 px-5 py-2.5 text-xs font-black text-purple-800 backdrop-blur-sm shadow-sm select-none"
           >
             <span className="h-2.5 w-2.5 rounded-full bg-purple-600 animate-pulse" />
             Focusing on: <span className="text-purple-950 font-black">{focusArea}</span>
           </motion.div>
 
-          {/* Dynamic Headline with display pairing */}
+          {/* 2. Dynamic Headline with Gradient Fades */}
           <motion.h1 
-            variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.1] font-display max-w-4xl"
+            variants={headlineVariants}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.15] font-display max-w-4xl"
           >
             {headline.split(' ').map((word, i) => {
               const isHighlight = 
@@ -88,113 +230,130 @@ export const Hero: React.FC<HeroProps> = ({
             })}
           </motion.h1>
 
-          {/* Subheadline */}
+          {/* 3. Subheadline with Premium typography */}
           <motion.p 
-            variants={itemVariants}
-            className="text-base text-slate-600 sm:text-lg md:text-xl font-semibold leading-relaxed max-w-3xl mx-auto"
+            variants={subheadlineVariants}
+            className="text-base text-slate-600 sm:text-lg md:text-xl font-semibold leading-relaxed max-w-3xl mx-auto px-4"
           >
             {subheadline}
           </motion.p>
 
-          {/* Interactive Offer Banner with glassmorphism shadows */}
+          {/* 4. Interactive Offer Banner with Glow & Glassmorphism */}
           <motion.div 
-            variants={itemVariants}
-            className="w-full max-w-2xl bg-slate-950 border border-slate-800 rounded-[2rem] p-6 sm:p-7 shadow-[0_30px_70px_-15px_rgba(15,23,42,0.35)] relative overflow-hidden text-left mt-2"
+            variants={offerVariants}
+            whileHover={{ scale: 1.015, borderColor: "rgba(147, 51, 234, 0.4)", boxShadow: "0 30px 60px -10px rgba(109,40,217,0.15)" }}
+            transition={{ type: "spring", stiffness: 120, damping: 20 }}
+            className="w-full max-w-2xl bg-slate-950 border border-slate-800/80 rounded-[2.5rem] p-7 sm:p-8 shadow-[0_30px_70px_-15px_rgba(15,23,42,0.4)] relative overflow-hidden text-left mt-2 transition-colors duration-300"
           >
-            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-purple-500/20 blur-2xl pointer-events-none" />
-            <div className="absolute -left-10 -bottom-10 h-32 w-32 rounded-full bg-indigo-500/10 blur-2xl pointer-events-none" />
+            <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-purple-500/15 blur-3xl pointer-events-none" />
+            <div className="absolute -left-10 -bottom-10 h-36 w-36 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
             
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-4 items-center sm:divide-x sm:divide-slate-800 relative z-10 text-center">
               <div className="px-2">
                 <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest">Standard Price</div>
-                <div className="text-xl font-bold text-slate-400 line-through mt-1">₹39,000</div>
+                <div className="text-xl font-bold text-slate-400 line-through mt-1.5">₹39,000</div>
               </div>
               
               <div className="px-2">
                 <div className="text-[10px] text-purple-300 font-extrabold uppercase tracking-widest">Special Tamil Offer</div>
-                <div className="text-3xl font-black text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text leading-none mt-1.5 font-display">₹9,999</div>
-                <span className="inline-block text-[9px] text-white font-extrabold bg-purple-600/90 px-2.5 py-0.5 rounded-full mt-2 tracking-wider uppercase">74% ONE-TIME DISCOUNT</span>
+                <div className="text-3xl font-black text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-300 bg-clip-text leading-none mt-2 font-display">₹9,999</div>
+                <span className="inline-block text-[9px] text-white font-extrabold bg-purple-600 px-3 py-1 rounded-full mt-2.5 tracking-widest uppercase">74% ONE-TIME DISCOUNT</span>
               </div>
               
               <div className="px-2">
                 <div className="text-[10px] text-purple-300 font-extrabold uppercase tracking-widest">Strict Batch Limit</div>
-                <div className="text-lg font-black text-white mt-1">15 Seats Max</div>
-                <span className="inline-block text-[9px] text-white font-extrabold bg-indigo-600/95 px-2.5 py-0.5 rounded-full mt-2 tracking-wider uppercase">CLASSES FILLING FAST</span>
+                <div className="text-lg font-black text-white mt-2">15 Seats Max</div>
+                <span className="inline-block text-[9px] text-white font-extrabold bg-indigo-600 px-3 py-1 rounded-full mt-2.5 tracking-widest uppercase">CLASSES FILLING FAST</span>
               </div>
             </div>
           </motion.div>
 
-          {/* CTA Buttons Grid */}
+          {/* 5. Centered CTA Button Group */}
           <motion.div 
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row flex-wrap gap-4 justify-center items-center w-full mt-4 max-w-4xl"
+            variants={buttonContainerVariants}
+            className="flex flex-col sm:flex-row flex-wrap gap-4.5 justify-center items-center w-full mt-4 max-w-4xl"
           >
             <motion.button
-              whileHover={{ scale: 1.04, y: -2 }}
+              variants={buttonVariants}
+              whileHover={{ scale: 1.04, y: -3 }}
               whileTap={{ scale: 0.98 }}
               onClick={onScrollToEnroll}
-              className="w-full sm:w-auto min-w-[190px] rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:opacity-95 text-white px-8 py-4.5 font-black text-base shadow-[0_10px_35px_rgba(124,58,237,0.35)] cursor-pointer transition-all border border-purple-500/20"
+              className="w-full sm:w-auto min-w-[200px] rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:opacity-95 text-white px-8 py-5 font-black text-base shadow-[0_12px_40px_rgba(124,58,237,0.35)] cursor-pointer transition-all border border-purple-500/20"
             >
               Enroll Now (₹9,999)
             </motion.button>
             
             <motion.a
-              whileHover={{ scale: 1.04, y: -2 }}
+              variants={buttonVariants}
+              whileHover={{ scale: 1.04, y: -3 }}
               whileTap={{ scale: 0.98 }}
               href="https://wa.me/919962999312?text=Hi%20ZenX%20Academy!%20I'm%20interested%20in%20the%20AI%20Digital%20Marketing%20Course%20in%20Tamil.%20Please%20share%20details."
               target="_blank"
               referrerPolicy="no-referrer"
-              className="w-full sm:w-auto min-w-[190px] flex items-center justify-center gap-2.5 rounded-2xl bg-[#25D366] hover:bg-[#20ba56] text-white px-8 py-4.5 font-black text-base shadow-[0_10px_35px_rgba(37,211,102,0.25)] cursor-pointer transition-all"
+              className="w-full sm:w-auto min-w-[200px] flex items-center justify-center gap-2.5 rounded-2xl bg-[#25D366] hover:bg-[#20ba56] text-white px-8 py-5 font-black text-base shadow-[0_12px_40px_rgba(37,211,102,0.25)] cursor-pointer transition-all"
             >
               <MessageCircle className="w-5 h-5 fill-white text-[#25D366]" />
               WhatsApp Us
             </motion.a>
 
             <motion.button
-              whileHover={{ scale: 1.04, y: -2 }}
+              variants={buttonVariants}
+              whileHover={{ scale: 1.04, y: -3 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenSyllabus}
-              className="w-full sm:w-auto min-w-[190px] rounded-2xl border-2 border-slate-900 bg-white hover:bg-slate-50 px-8 py-4.5 font-black text-base text-slate-900 shadow-md cursor-pointer transition-all"
+              className="w-full sm:w-auto min-w-[200px] rounded-2xl border-2 border-slate-900 bg-white hover:bg-slate-50 px-8 py-5 font-black text-base text-slate-900 shadow-md cursor-pointer transition-all"
             >
               Download Syllabus
             </motion.button>
 
             <motion.button
-              whileHover={{ scale: 1.04, y: -2 }}
+              variants={buttonVariants}
+              whileHover={{ scale: 1.04, y: -3 }}
               whileTap={{ scale: 0.98 }}
               onClick={onOpenDemo}
-              className="w-full sm:w-auto min-w-[190px] rounded-2xl bg-slate-900 hover:bg-slate-800 text-white px-8 py-4.5 font-black text-base shadow-lg cursor-pointer transition-all"
+              className="w-full sm:w-auto min-w-[200px] rounded-2xl bg-slate-900 hover:bg-slate-800 text-white px-8 py-5 font-black text-base shadow-lg cursor-pointer transition-all"
             >
               Book Free Demo
             </motion.button>
           </motion.div>
 
-          {/* Trust Indicators */}
+          {/* 6. Centered Trust Indicators */}
           <motion.div 
-            variants={itemVariants}
-            className="flex items-center justify-center gap-4 sm:gap-6 flex-wrap mt-4 text-[10px] sm:text-xs font-extrabold text-slate-500 uppercase tracking-wider"
+            variants={indicatorsContainerVariants}
+            className="flex items-center justify-center gap-4 sm:gap-6 flex-wrap mt-4 text-[10px] sm:text-xs font-extrabold text-slate-500 uppercase tracking-widest"
           >
-            <div className="flex items-center gap-2 bg-slate-100/80 px-4 py-2 rounded-full border border-slate-200/50">
-              <Clock className="w-4 h-4 text-purple-600" />
+            <motion.div 
+              variants={indicatorItemVariants}
+              className="flex items-center gap-2.5 bg-slate-100/90 border border-slate-200/40 px-5 py-2.5 rounded-full shadow-sm"
+            >
+              <Clock className="w-4 h-4 text-purple-600 animate-pulse" />
               2 Months Program
-            </div>
-            <div className="flex items-center gap-2 bg-slate-100/80 px-4 py-2 rounded-full border border-slate-200/50">
+            </motion.div>
+            <motion.div 
+              variants={indicatorItemVariants}
+              className="flex items-center gap-2.5 bg-slate-100/90 border border-slate-200/40 px-5 py-2.5 rounded-full shadow-sm"
+            >
               <BookOpen className="w-4 h-4 text-purple-600" />
               Mon to Fri Interactive
-            </div>
-            <div className="flex items-center gap-2 bg-slate-100/80 px-4 py-2 rounded-full border border-slate-200/50">
+            </motion.div>
+            <motion.div 
+              variants={indicatorItemVariants}
+              className="flex items-center gap-2.5 bg-slate-100/90 border border-slate-200/40 px-5 py-2.5 rounded-full shadow-sm"
+            >
               <Users className="w-4 h-4 text-purple-600" />
               Live Online Classes (6-8 PM)
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* Centered Instructor Spotlight Showcase */}
+          {/* 7. Centered Instructor Spotlight Showcase */}
           <motion.div 
-            variants={itemVariants}
-            className="w-full max-w-3xl mt-12 border border-slate-150 bg-white/70 backdrop-blur-md rounded-[2.5rem] p-6 sm:p-8 shadow-[0_30px_70px_-15px_rgba(109,40,217,0.1)] relative overflow-hidden"
+            variants={spotlightVariants}
+            whileHover={{ y: -5, borderColor: "rgba(147, 51, 234, 0.35)", boxShadow: "0 35px 80px -20px rgba(109,40,217,0.15)" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+            className="w-full max-w-3xl mt-12 border border-slate-150/80 bg-white/80 backdrop-blur-md rounded-[2.5rem] p-7 sm:p-9 shadow-[0_30px_70px_-15px_rgba(109,40,217,0.08)] relative overflow-hidden transition-all duration-300"
           >
             {/* Tag/Label Ribbon */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-[9px] uppercase tracking-widest px-4 py-1.5 rounded-b-2xl border-x border-b border-purple-500/20 shadow-md">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-black text-[9px] uppercase tracking-widest px-5 py-2 rounded-b-2xl border-x border-b border-purple-500/20 shadow-md">
               Learn From Chennai's Leading AI SEO Expert
             </div>
 
@@ -236,8 +395,10 @@ export const Hero: React.FC<HeroProps> = ({
                 </p>
 
                 {/* LinkedIn and Meta Partner Info Group */}
-                <div className="flex flex-col sm:flex-row items-center gap-4 mt-4.5">
-                  <a 
+                <div className="flex flex-col sm:flex-row items-center gap-4 mt-5">
+                  <motion.a 
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.98 }}
                     href="https://www.linkedin.com/in/sarathbabuk/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
@@ -245,7 +406,7 @@ export const Hero: React.FC<HeroProps> = ({
                   >
                     <Linkedin className="w-3.5 h-3.5 text-sky-400 fill-sky-400" />
                     LinkedIn (5,000+ Followers)
-                  </a>
+                  </motion.a>
                   <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                     <Award className="w-4 h-4 text-purple-600" />
                     Google & Meta Certified Partner
